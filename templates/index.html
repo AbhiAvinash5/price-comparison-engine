@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Price Comparison Engine</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f2f2f2; text-align:center; padding:50px;}
+        input[type=text]{padding:10px; width:300px;}
+        input[type=submit]{padding:10px 20px;}
+        table { margin:auto; border-collapse: collapse; width:80%; margin-top:20px;}
+        th, td { border:1px solid #ddd; padding:10px; text-align:center;}
+        th { background-color:#4CAF50; color:white;}
+    </style>
+</head>
+<body>
+    <h1>Price Comparison Engine</h1>
+    <form method="POST">
+        <input type="text" name="product" placeholder="Enter product name" required>
+        <input type="submit" value="Search">
+    </form>
+
+    {% if results %}
+        <h2>Results for {{ results[0]['name'].split(' ')[0] }}</h2>
+        <table>
+            <tr>
+                <th>Product Name</th>
+                <th>Website</th>
+                <th>Price (₹)</th>
+                <th>Link</th>
+            </tr>
+            {% for item in results %}
+            <tr {% if item==lowest %} style="background-color:#d1ffd1;" {% endif %}>
+                <td>{{ item.name }}</td>
+                <td>{{ item.site }}</td>
+                <td>{{ item.price }}</td>
+                <td><a href="{{ item.link }}" target="_blank">View</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <p><b>Lowest Price:</b> ₹{{ lowest.price }} at {{ lowest.site }}</p>
+    {% endif %}
+</body>
+</html>
